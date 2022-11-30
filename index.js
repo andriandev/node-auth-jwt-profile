@@ -4,6 +4,7 @@ import cors from 'cors';
 import UsersRoute from './app/routes/UsersRoute.js';
 import RoleUserRoute from './app/routes/RoleUserRoute.js';
 import AuthRoute from './app/routes/AuthRoute.js';
+import PagesRoute from './app/routes/PagesRoute.js';
 // import DB from './app/config/database.js';
 
 // Check database connection
@@ -23,7 +24,8 @@ app.use(urlencoded({ extended: true }));
 app.use(UsersRoute);
 app.use(RoleUserRoute);
 app.use(AuthRoute);
+app.use(PagesRoute);
 
 app.listen(port, () => {
-  console.log(`Server running in ${port}`);
+  console.log(`Server running in port ${port}`);
 });
