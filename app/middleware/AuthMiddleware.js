@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/UsersModel.js';
-import RoleUserModel from '../models/RoleUserModel.js';
+import UsersModel from '../models/UsersModel.js';
+import UserRolesModel from '../models/UserRolesModel.js';
 
 export const isLoggedIn = async (req, res, next) => {
   // Check if req.headers.authorization exist
@@ -16,11 +16,11 @@ export const isLoggedIn = async (req, res, next) => {
       const tokenDecoded = jwt.verify(token, process.env.SECRET_TOKEN);
 
       // Get user from database by id
-      const dataUser = await UserModel.findOne({
+      const dataUser = await UsersModel.findOne({
         where: { id: tokenDecoded?.id },
         attributes: { exclude: ['password'] },
         include: {
-          model: RoleUserModel,
+          model: UserRolesModel,
           attributes: ['id', 'value'],
         },
       });
@@ -40,7 +40,9 @@ export const isLoggedIn = async (req, res, next) => {
         req.isLoggedIn = true;
         req.isRole = dataUser?.user_role?.value;
       } else {
-        res.status(401).json({ status: 401, data: 'Access unauthorized' });
+        return res
+          .status(401)
+          .json({ status: 401, data: 'Access unauthorized' });
       }
 
       next();
@@ -57,10 +59,10 @@ export const isLoggedIn = async (req, res, next) => {
       } else if (nameError == 'NotBeforeError') {
         message = 'Token not active';
       }
-      res.status(400).json({ status: 400, data: message });
+      return res.status(400).json({ status: 400, data: message });
     }
   } else {
-    res.status(401).json({ status: 401, data: 'Access unauthorized' });
+    return res.status(401).json({ status: 401, data: 'Access unauthorized' });
   }
 };
 
@@ -68,6 +70,8 @@ export const isAdmin = (req, res, next) => {
   if (req?.isLoggedIn && req?.isRole == 'admin') {
     next();
   } else {
-    res.status(403).json({ status: 403, data: 'Access denied, admin only' });
+    return res
+      .status(403)
+      .json({ status: 403, data: 'Access denied, admin only' });
   }
 };

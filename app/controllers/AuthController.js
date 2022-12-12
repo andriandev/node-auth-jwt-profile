@@ -1,5 +1,5 @@
-import UserModel from '../models/UsersModel.js';
-import RoleUserModel from '../models/RoleUserModel.js';
+import UsersModel from '../models/UsersModel.js';
+import UserRolesModel from '../models/UserRolesModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -13,7 +13,7 @@ export const authRegister = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, 10);
 
   try {
-    await UserModel.create({
+    await UsersModel.create({
       username, // username: username
       email, // email: email
       password: hashPassword,
@@ -25,19 +25,19 @@ export const authRegister = async (req, res) => {
     if (e?.name == 'SequelizeUniqueConstraintError') {
       message = 'Username or Email is already exist';
     }
-    res.status(400).json({ status: 400, data: message });
+    return res.status(400).json({ status: 400, data: message });
   }
 };
 
 export const authLogin = async (req, res) => {
   const { username = '', password = '' } = req.body;
   try {
-    const dataUser = await UserModel.findOne({
+    const dataUser = await UsersModel.findOne({
       where: {
         username: username,
       },
       include: {
-        model: RoleUserModel,
+        model: UserRolesModel,
         attributes: ['id', 'value'],
       },
     });
@@ -71,18 +71,20 @@ export const authLogin = async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    res.status(200).json({ status: 200, data: { token } });
+    return res.status(200).json({ status: 200, data: { token } });
   } catch (e) {
-    res.status(500).json({ status: 500, data: e?.message });
+    return res.status(500).json({ status: 500, data: e?.message });
   }
 };
 
 export const authMe = async (req, res) => {
   if (req?.isLoggedIn) {
-    res.status(200).json({ status: 200, data: req?.dataUser });
+    return res.status(200).json({ status: 200, data: req?.dataUser });
   } else {
-    res.status(401).json({ status: 401, data: 'Access unauthorized' });
+    return res.status(401).json({ status: 401, data: 'Access unauthorized' });
   }
 };
 
-export const authLogout = async (req, res) => {};
+export const authLogout = async (req, res) => {
+  return res.status(200).json({ status: 200, data: 'Logout succesfully' });
+};

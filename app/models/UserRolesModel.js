@@ -3,7 +3,7 @@ import DB from '../config/Database.js';
 
 const { DataTypes } = Sequelize;
 
-const UserRole = DB.define(
+const UserRoles = DB.define(
   'user_roles',
   {
     value: {
@@ -23,4 +23,4 @@ const UserRole = DB.define(
   }
 );
 
-export default UserRole;
+export default UserRoles;

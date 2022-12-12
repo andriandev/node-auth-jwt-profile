@@ -2,7 +2,7 @@ import express, { urlencoded } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import UsersRoute from './app/routes/UsersRoute.js';
-import RoleUserRoute from './app/routes/RoleUserRoute.js';
+import UserRolesRoute from './app/routes/UserRolesRoute.js';
 import AuthRoute from './app/routes/AuthRoute.js';
 import PagesRoute from './app/routes/PagesRoute.js';
 // import DB from './app/config/database.js';
@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(UsersRoute);
-app.use(RoleUserRoute);
+app.use(UserRolesRoute);
 app.use(AuthRoute);
 app.use(PagesRoute);
 

@@ -5,7 +5,7 @@ import {
   createUserRole,
   updateUserRole,
   deleteUserRole,
-} from '../controllers/RoleUserController.js';
+} from '../controllers/UserRolesController.js';
 import { isLoggedIn, isAdmin } from '../middleware/AuthMiddleware.js';
 
 const router = express.Router();

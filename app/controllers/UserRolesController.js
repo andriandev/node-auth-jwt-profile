@@ -1,8 +1,8 @@
-import RoleUserModel from '../models/RoleUserModel.js';
+import UserRolesModel from '../models/UserRolesModel.js';
 
 export const getUserRole = async (req, res) => {
   try {
-    const dataRole = await RoleUserModel.findAll();
+    const dataRole = await UserRolesModel.findAll();
     res.status(200).json({ status: 200, data: dataRole });
   } catch (e) {
     res.status(500).json({ status: 500, data: e?.message });
@@ -11,7 +11,7 @@ export const getUserRole = async (req, res) => {
 
 export const getUserRoleById = async (req, res) => {
   try {
-    const dataRole = await RoleUserModel.findOne({
+    const dataRole = await UserRolesModel.findOne({
       where: {
         id: req.params.id,
       },
@@ -29,7 +29,7 @@ export const createUserRole = async (req, res) => {
   const { value } = req.body;
 
   try {
-    await RoleUserModel.create({
+    await UserRolesModel.create({
       value, // value: value
     });
     res.status(201).json({ status: 200, data: 'Role added succesfully' });
@@ -43,7 +43,7 @@ export const createUserRole = async (req, res) => {
 };
 
 export const updateUserRole = async (req, res) => {
-  const dataRole = await RoleUserModel.findOne({
+  const dataRole = await UserRolesModel.findOne({
     where: {
       id: req.params.id,
     },
@@ -56,7 +56,7 @@ export const updateUserRole = async (req, res) => {
   const { value = dataRole.value } = req.body;
 
   try {
-    await RoleUserModel.update(
+    await UserRolesModel.update(
       {
         value, // value: value
       },
@@ -77,23 +77,20 @@ export const updateUserRole = async (req, res) => {
 };
 
 export const deleteUserRole = async (req, res) => {
-  const dataRole = await RoleUserModel.findOne({
-    where: {
-      id: req.params.id,
-    },
-  });
-
-  if (!dataRole) {
-    return res.status(404).json({ status: 404, data: 'Role not found' });
-  }
-
   try {
-    await RoleUserModel.destroy({
+    const status = await UserRolesModel.destroy({
       where: {
-        id: dataRole.id,
+        id: req.params.id,
       },
     });
-    res.status(200).json({ status: 200, data: 'Role deleted succesfully' });
+
+    if (status) {
+      return res
+        .status(200)
+        .json({ status: 200, data: 'Role deleted succesfully' });
+    } else {
+      return res.status(404).json({ status: 404, data: 'Role not found' });
+    }
   } catch (e) {
     res.status(400).json({ status: 400, data: e?.message });
   }

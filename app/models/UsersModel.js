@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import DB from '../config/Database.js';
-import RoleUserModel from './RoleUserModel.js';
+import UserRolesModel from './UserRolesModel.js';
 
 const { DataTypes } = Sequelize;
 
@@ -48,7 +48,7 @@ const Users = DB.define(
   }
 );
 
-RoleUserModel.hasMany(Users, { foreignKey: 'role_id' });
-Users.belongsTo(RoleUserModel, { foreignKey: 'role_id' });
+UserRolesModel.hasMany(Users, { foreignKey: 'role_id' });
+Users.belongsTo(UserRolesModel, { foreignKey: 'role_id' });
 
 export default Users;
