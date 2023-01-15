@@ -12,6 +12,11 @@ import PagesRoute from './app/routes/PagesRoute.js';
 //   .then(() => console.log('Database connected'))
 //   .catch((e) => console.log(e.message));
 
+// Sync and create table in database (sequelize fiture)
+// DB.sync({ force: true })
+//   .then(console.log('Table created succesfully'))
+//   .catch((e) => console.log(e?.message));
+
 // Config
 dotenv.config();
 const app = express();
