@@ -9,8 +9,19 @@ export const isLoggedIn = async (req, res, next) => {
     req?.headers?.authorization?.startsWith('Bearer')
   ) {
     try {
+      // Get blacklist token
+      const blackListToken = req.session.blackListToken;
+
       // Get token
       const token = req?.headers?.authorization?.split(' ')[1];
+
+      if(blackListToken) {
+        if(blackListToken.find(e => e == token)){
+          return res
+            .status(400)
+            .json({ status: 400, data: 'Token is revoked' });
+        }
+      }
 
       // Decode token
       const tokenDecoded = jwt.verify(token, process.env.SECRET_TOKEN);

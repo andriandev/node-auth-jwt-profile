@@ -61,6 +61,8 @@ export const authLogin = async (req, res) => {
         .json({ status: 400, data: 'Username and Password not match' });
     }
 
+    const expiredToken = 172800; // 2 Days
+
     const token = jwt.sign(
       {
         id: dataUser?.id,
@@ -68,10 +70,10 @@ export const authLogin = async (req, res) => {
         role: dataUser?.user_role?.value,
       },
       process.env.SECRET_TOKEN,
-      { expiresIn: '7d' }
+      { expiresIn: expiredToken }
     );
 
-    return res.status(200).json({ status: 200, data: { token } });
+    return res.status(200).json({ status: 200, token: token, expires_in: expiredToken});
   } catch (e) {
     return res.status(500).json({ status: 500, data: e?.message });
   }
@@ -86,5 +88,18 @@ export const authMe = async (req, res) => {
 };
 
 export const authLogout = async (req, res) => {
+  if (
+    req?.headers?.authorization &&
+    req?.headers?.authorization?.startsWith('Bearer')
+  ) {
+    // Get token
+    const token = req?.headers?.authorization?.split(' ')[1];
+    let blackListToken = req.session.blackListToken ? req.session.blackListToken : req.session.blackListToken = [];
+    blackListToken.push(token);
+
+    // Set blacklist token
+    req.session.blackListToken = blackListToken;
+  }
+
   return res.status(200).json({ status: 200, data: 'Logout succesfully' });
 };

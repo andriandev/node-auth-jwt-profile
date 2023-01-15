@@ -1,6 +1,7 @@
 import express, { urlencoded } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import session from 'express-session';
 import UsersRoute from './app/routes/UsersRoute.js';
 import UserRolesRoute from './app/routes/UserRolesRoute.js';
 import AuthRoute from './app/routes/AuthRoute.js';
@@ -28,6 +29,12 @@ const port = process.env.PORT || process.env.APP_PORT;
 app.use(cors());
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
+app.use(session({
+  secret: 'inicontoh123',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: 'auto' }
+}))
 app.use(UsersRoute);
 app.use(UserRolesRoute);
 app.use(AuthRoute);
