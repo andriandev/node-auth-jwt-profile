@@ -48,7 +48,7 @@ export const getUserById = async (req, res) => {
       }
     );
 
-    if (!dataUser) {
+    if (!dataUser || dataUser.length == 0) {
       return res.status(404).json({ status: 404, data: 'User not found' });
     }
 
