@@ -30,33 +30,29 @@ export const getUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const dataUser = await UsersModel.findOne({
-      where: {
-        id: req.params.id,
-      },
-      // attributes: {
-      //   include: ['id', 'username', 'email', 'created_at', 'updated_at'],
-      // },
-      include: [
-        {
-          model: UserRolesModel,
-          required: true,
-        },
-      ],
-    });
+    // const dataUser = await UsersModel.findOne({
+    //   where: {
+    //     id: req.params.id,
+    //   },
+    //   attributes: { exclude: ['password', 'role_id'] },
+    //   include: {
+    //     model: UserRolesModel,
+    //     attributes: ['value'],
+    //   },
+    // });
 
-    // const dataUser = await DB.query(
-    //   `SELECT users.id, users.username, users.email, user_roles.value AS role, users.created_at, users.updated_at FROM users INNER JOIN user_roles ON users.role_id=user_roles.id WHERE users.id=${req.params.id}`,
-    //   {
-    //     type: QueryTypes.SELECT,
-    //   }
-    // );
+    const dataUser = await DB.query(
+      `SELECT users.id, users.username, users.email, user_roles.value AS role, users.created_at, users.updated_at FROM users INNER JOIN user_roles ON users.role_id=user_roles.id WHERE users.id=${req.params.id}`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
 
     if (!dataUser) {
       return res.status(404).json({ status: 404, data: 'User not found' });
     }
 
-    return res.status(200).json({ status: 200, data: dataUser });
+    return res.status(200).json({ status: 200, data: dataUser[0] });
   } catch (e) {
     return res.status(500).json({ status: 500, data: e?.message });
   }
