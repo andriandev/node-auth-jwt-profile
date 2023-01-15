@@ -6,14 +6,16 @@ import UserRolesRoute from './app/routes/UserRolesRoute.js';
 import AuthRoute from './app/routes/AuthRoute.js';
 import PagesRoute from './app/routes/PagesRoute.js';
 // import DB from './app/config/database.js';
+// import UserModel from './app/models/UsersModel.js';
+// import UserRolesModel from './app/models/UserRolesModel.js';
 
 // Check database connection
 // DB.authenticate()
 //   .then(() => console.log('Database connected'))
 //   .catch((e) => console.log(e.message));
 
-// Sync and create table in database (sequelize fiture)
-// DB.sync({ force: true })
+// Sync and create table in database (sequelize fiture) UserRolesModel first before UserModel
+// UserRolesModel.sync({ force: true })
 //   .then(console.log('Table created succesfully'))
 //   .catch((e) => console.log(e?.message));
 
