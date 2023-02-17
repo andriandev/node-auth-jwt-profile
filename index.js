@@ -5,10 +5,12 @@ import session from 'express-session';
 import UsersRoute from './app/routes/UsersRoute.js';
 import UserRolesRoute from './app/routes/UserRolesRoute.js';
 import AuthRoute from './app/routes/AuthRoute.js';
+import DataRoute from './app/routes/DataRoute.js';
 import PagesRoute from './app/routes/PagesRoute.js';
 // import DB from './app/config/database.js';
 // import UserModel from './app/models/UsersModel.js';
 // import UserRolesModel from './app/models/UserRolesModel.js';
+// import DataModel from './app/models/DataModel.js';
 
 // Check database connection
 // DB.authenticate()
@@ -29,15 +31,18 @@ const port = process.env.PORT || process.env.APP_PORT;
 app.use(cors());
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
-app.use(session({
-  secret: 'inicontoh123',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: 'auto' }
-}))
+app.use(
+  session({
+    secret: 'inicontoh123',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: 'auto' },
+  })
+);
 app.use(UsersRoute);
 app.use(UserRolesRoute);
 app.use(AuthRoute);
+app.use(DataRoute);
 app.use(PagesRoute);
 
 app.listen(port, () => {
