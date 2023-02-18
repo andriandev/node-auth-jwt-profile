@@ -49,7 +49,7 @@ export const createData = async (req, res) => {
 export const updateData = async (req, res) => {
   const data = await DataModel.findOne({
     where: {
-      name: req.params.name,
+      id: req.params.id,
     },
   });
 
@@ -67,7 +67,7 @@ export const updateData = async (req, res) => {
       },
       {
         where: {
-          name: data.name,
+          id: data.id,
         },
       }
     );
@@ -82,7 +82,7 @@ export const deleteData = async (req, res) => {
   try {
     const status = await DataModel.destroy({
       where: {
-        name: req.params.name,
+        id: req.params.id,
       },
     });
 
