@@ -6,11 +6,13 @@ import UsersRoute from './app/routes/UsersRoute.js';
 import UserRolesRoute from './app/routes/UserRolesRoute.js';
 import AuthRoute from './app/routes/AuthRoute.js';
 import DataRoute from './app/routes/DataRoute.js';
+import PostRoute from './app/routes/PostRoute.js';
 import PagesRoute from './app/routes/PagesRoute.js';
 // import DB from './app/config/database.js';
 // import UserModel from './app/models/UsersModel.js';
 // import UserRolesModel from './app/models/UserRolesModel.js';
 // import DataModel from './app/models/DataModel.js';
+// import PostModel from './app/models/PostModel.js';
 
 // Check database connection
 // DB.authenticate()
@@ -18,7 +20,7 @@ import PagesRoute from './app/routes/PagesRoute.js';
 //   .catch((e) => console.log(e.message));
 
 // Sync and create table in database (sequelize fiture) UserRolesModel first before UserModel
-// UserRolesModel.sync({ force: true })
+// UserModel.sync({ force: true })
 //   .then(console.log('Table created succesfully'))
 //   .catch((e) => console.log(e?.message));
 
@@ -43,6 +45,7 @@ app.use(UsersRoute);
 app.use(UserRolesRoute);
 app.use(AuthRoute);
 app.use(DataRoute);
+app.use(PostRoute);
 app.use(PagesRoute);
 
 app.listen(port, () => {

@@ -43,3 +43,10 @@ export const datetimeToTimestamp = (datetime) => {
 
   return timestamp;
 };
+
+export const urlTitle = (string = 'String') => {
+  return string
+    .toLowerCase()
+    .replaceAll(/[^\w\s]/gi, '')
+    .replaceAll(' ', '-');
+};
