@@ -17,6 +17,7 @@ export const restrictRateLimit = rateLimit({
   max: 3, // Limit each IP to 3 requests per `window`
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  skipSuccessfulRequests: true, // Skip count if request succeed when the response status code < 400.
   message: (req, res) =>
     res.json({
       status: 429,
