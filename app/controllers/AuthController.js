@@ -1,7 +1,8 @@
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import UsersModel from '../models/UsersModel.js';
 import UserRolesModel from '../models/UserRolesModel.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import cache from '../helpers/Cache.js';
 
 export const authRegister = async (req, res) => {
   const { username, email, password, conf_password } = req.body;

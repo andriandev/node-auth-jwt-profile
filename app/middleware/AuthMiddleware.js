@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import UsersModel from '../models/UsersModel.js';
 import UserRolesModel from '../models/UserRolesModel.js';
+import cache from '../helpers/Cache.js';
 
 export const isLoggedIn = async (req, res, next) => {
   // Check if req.headers.authorization exist
